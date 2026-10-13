@@ -186,6 +186,41 @@ p { margin: 0; }
 .lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (max-width: 720px) { .nav { flex-wrap: wrap; } .nav-links { gap: 10px; } }
 
+.tabs, .use-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.tabs { margin-top: 28px; }
+.tabs button, .use-tabs button { font: 600 .95rem/1.2 var(--f-body); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; cursor: pointer; text-align: left; }
+.tabs button:hover, .use-tabs button:hover { border-color: var(--ink); color: var(--ink); }
+.tabs button[aria-selected="true"], .use-tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.tabs button:focus-visible, .use-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tab-panel[hidden], .use-panel[hidden] { display: none; }
+.uses { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: clamp(24px, 4vw, 56px); margin-top: 36px; align-items: start; }
+.use-tabs { flex-direction: column; flex-wrap: nowrap; }
+.use-tabs button { border-radius: var(--r-md); width: 100%; }
+.use-body { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(22px, 4vw, 40px); min-height: 280px; }
+.use-panel h3 { font-size: 1.5rem; margin-bottom: 12px; }
+.use-panel p { color: var(--muted); }
+.helps { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.helps-l { font-family: var(--f-mono); font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-right: 4px; }
+.chip { font-size: .85rem; font-weight: 600; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 5px 12px; }
+@media (max-width: 820px) { .uses { grid-template-columns: minmax(0, 1fr); } .use-tabs { flex-direction: row; flex-wrap: wrap; } .use-tabs button { width: auto; } }
+.timeline { list-style: none; margin: 40px 0 0; padding: 0 0 0 28px; position: relative; max-width: 760px; }
+.timeline::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.tl-item { position: relative; padding-bottom: 34px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before { content: ""; position: absolute; left: -28px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 3px solid var(--accent); box-sizing: border-box; }
+.tl-when { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.tl-item h3 { margin: 6px 0 8px; font-size: 1.35rem; }
+.tl-item p { color: var(--muted); }
+.faq { margin-top: 36px; max-width: 820px; border-bottom: 1px solid var(--line); }
+.qa { border-top: 1px solid var(--line); }
+.qa summary { list-style: none; cursor: pointer; padding: 20px 40px 20px 0; font-family: var(--f-display); font-weight: 600; font-size: 1.12rem; position: relative; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; font-weight: 400; color: var(--accent); }
+.qa[open] summary::after { content: "\2212"; }
+.qa summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.qa p { color: var(--muted); margin: 0 0 22px; max-width: 64ch; }
+@media (max-width: 720px) { .nav-links a:not(.btn) { display: none; } }
+
 footer { padding-block: 40px 56px; color: var(--muted); font-size: .92rem; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
 </style>
@@ -198,7 +233,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
     <div class="nav-links">
       <a href="#how"><span data-i18n data-ru="Как это работает">How it works</span></a>
       <a href="#product"><span data-i18n data-ru="Продукт">Product</span></a>
-      <a href="#team"><span data-i18n data-ru="Команда">Team</span></a>
+      <a href="#story"><span data-i18n data-ru="История">Story</span></a>
+      <a href="#faq"><span data-i18n data-ru="Вопросы">FAQ</span></a>
       <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="ru" aria-pressed="false">RU</button></div>
       <a class="btn btn-primary" href="#waitlist"><span data-i18n data-ru="Список ожидания">Join the waitlist</span></a>
     </div>
@@ -302,34 +338,14 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
 <!-- FEATURES -->
 <section id="features">
   <div class="wrap">
-    <p class="eyebrow"><span data-i18n data-ru="Что внутри">What is inside</span></p>
-    <h2 style="margin-top:14px; max-width:22ch"><span data-i18n data-ru="Приложение и браслет, которые дополняют друг друга.">An app and a wearable that back each other up.</span></h2>
-    <div class="features">
-      <div class="feature">
-        <h3><span data-i18n data-ru="Таймер безопасности">Safety timer</span></h3>
-        <p><span data-i18n data-ru="Поставь таймер на дорогу домой. Если ты не подтвердишь, что в безопасности, контакты получат тревогу.">Set a timer for a walk home. If you do not confirm you are safe, your contacts are alerted.</span></p>
-      </div>
-      <div class="feature">
-        <h3><span data-i18n data-ru="Фейковый звонок">Fake call</span></h3>
-        <p><span data-i18n data-ru="Звонок голосом близкого человека (используются записанные голоса твоих родных), чтобы можно было выйти из неприятной ситуации.">A call that sounds like someone you know, using the real voices of your loved ones, so you can leave an uncomfortable situation.</span></p>
-      </div>
-      <div class="feature">
-        <h3><span data-i18n data-ru="Карта партнёров">Partner map</span></h3>
-        <p><span data-i18n data-ru="Кафе, аптеки и магазины с обученным персоналом отмечены на карте как места, куда можно зайти.">Cafes, pharmacies and shops with trained staff, shown on the map as places you can walk into.</span></p>
-      </div>
-      <div class="feature">
-        <h3><span data-i18n data-ru="Датчик пульса">Pulse sensor</span></h3>
-        <p><span data-i18n data-ru="Браслет измеряет пульс и передаёт его в приложение по Bluetooth.">The wearable reads your heart rate and streams it to the app over Bluetooth.</span></p>
-      </div>
-      <div class="feature">
-        <h3><span data-i18n data-ru="Оповещение о низком заряде">Low-battery alert</span></h3>
-        <p><span data-i18n data-ru="Если телефон скоро разрядится, контакты узнают об этом заранее, и молчащий телефон не станет неожиданностью.">If your phone is about to die, your contacts are told, so a silent phone is never a surprise.</span></p>
-      </div>
-      <div class="feature">
-        <h3><span data-i18n data-ru="Три языка">Three languages</span></h3>
-        <p><span data-i18n data-ru="Весь интерфейс доступен на английском, русском и казахском.">The full interface is available in English, Russian and Kazakh.</span></p>
-      </div>
+    <p class="eyebrow"><span data-i18n data-ru="Всё, что умеет Qorgan">Everything Qorgan does</span></p>
+    <h2 style="margin-top:14px; max-width:22ch"><span data-i18n data-ru="Приложение и браслет, которые дополняют друг друга.">An app and a bracelet that back each other up.</span></h2>
+    <div class="tabs" role="tablist" aria-label="Features">
+      <button type="button" role="tab" id="tab-app" aria-controls="panel-app" aria-selected="true" data-tab="app"><span data-i18n data-ru="Приложение">App</span></button>
+      <button type="button" role="tab" id="tab-band" aria-controls="panel-band" aria-selected="false" data-tab="band"><span data-i18n data-ru="Браслет">Bracelet</span></button>
     </div>
+    <div class="features tab-panel" id="panel-app" role="tabpanel" aria-labelledby="tab-app"><div class="feature"><h3><span data-i18n data-ru="SOS за две секунды">SOS in two seconds</span></h3><p><span data-i18n data-ru="Удерживай кнопку SOS две секунды. Геолокация передаётся, начинается запись звука, доверенные контакты получают тревогу.">Hold the SOS button for two seconds. Your live location is shared, audio recording starts and your trusted contacts are alerted.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Оповещение в Telegram">Alerts in Telegram</span></h3><p><span data-i18n data-ru="Контакты получают тревогу в Telegram. Приложение Qorgan им не нужно, достаточно один раз подключить Telegram. Нажми «Я в порядке», чтобы завершить тревогу.">Your contacts get the alert in Telegram. They do not need the Qorgan app, they only connect their Telegram once. Tap “I’m OK” to end the alert.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Таймер безопасности">Safety timer</span></h3><p><span data-i18n data-ru="Поставь таймер на прогулку или поездку. Если ты не подтвердишь, что в безопасности, контакты получат тревогу.">Set a timer for a walk or a ride. If you do not confirm that you are safe in time, your contacts are alerted.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Фейковый звонок">Fake call</span></h3><p><span data-i18n data-ru="Фейковый входящий звонок голосом мамы, папы, брата, сестры или партнёра, записанным в студии голосов. Удерживай кнопку Fake Call на главном экране, и звонок начнётся сразу и громко, а запись звука включится тихо.">A fake incoming call in the voice of your mom, dad, brother, sister or partner, recorded in the voice studio. Hold the Fake Call button on the home screen for an instant loud call, with audio recording started quietly.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Оповещение о SOS рядом">Nearby SOS alert</span></h3><p><span data-i18n data-ru="Пользователи Qorgan в радиусе 500 метров получают оповещение, когда кому-то рядом нужна помощь.">Qorgan users within 500 meters are alerted when someone close to them needs help.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Карта безопасных мест">Safe map and Partners</span></h3><p><span data-i18n data-ru="Карта кафе, аптек и магазинов с обученным персоналом. Ближайшие безопасные места также показаны на экране SOS, у каждого есть кнопка маршрута. Пока это демонстрационные партнёры.">A map of cafes, pharmacies and shops with trained staff. The nearest safe places also appear on the SOS screen, each with a route button. Partners are demo entries for now.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Безопасный маршрут">Safe Route</span></h3><p><span data-i18n data-ru="Пешеходный маршрут по тротуарам и дорожкам с оценкой безопасности: она зависит от того, как близко маршрут проходит к проверенным партнёрам, полиции и аптекам.">A walking route built over sidewalks and footpaths, with a safety score based on how close it passes to verified Partners, police and pharmacies.</span></p></div><div class="feature"><h3><span data-i18n data-ru="История SOS">SOS history</span></h3><p><span data-i18n data-ru="Каждая тревога сохраняется со временем, геолокацией и аудио. Уровень опасности считается по простым правилам, без ИИ: низкий, если ты подтвердила безопасность за 2 минуты, средний при 2–6 минутах, высокий после 6 минут или 3 пропущенных проверок.">Every alert is saved with its time, locations and audio. The danger level comes from simple rules, not AI: low if you confirm you are safe within 2 minutes, medium for 2 to 6 minutes, high after 6 minutes or 3 missed check-ins.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Оповещение о низком заряде">Low-battery alert</span></h3><p><span data-i18n data-ru="Если телефон скоро разрядится, доверенный контакт узнает об этом, и молчащий телефон не станет неожиданностью.">If your phone is about to run out of battery, your trusted contact is told, so a silent phone is never a surprise.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Три языка">Three languages</span></h3><p><span data-i18n data-ru="Весь интерфейс работает на английском, русском и казахском.">The whole interface works in English, Russian and Kazakh.</span></p></div></div>
+    <div class="features tab-panel" id="panel-band" role="tabpanel" aria-labelledby="tab-band" hidden><div class="feature"><h3><span data-i18n data-ru="Одна кнопка, две секунды">One button, two seconds</span></h3><p><span data-i18n data-ru="Удерживай кнопку две секунды, и на телефоне запускается SOS. Без экрана и разблокировки.">Hold the button for two seconds and the SOS starts on your phone. No screen, no unlocking.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Подтверждение вибрацией">Vibration confirmation</span></h3><p><span data-i18n data-ru="Браслет вибрирует, когда приложение подтвердило отправку тревоги, и ты знаешь, что всё сработало, не глядя на экран.">The bracelet vibrates once the app confirms that the alert was sent, so you know it worked without looking.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Датчик пульса">Pulse sensor</span></h3><p><span data-i18n data-ru="Датчик MAX30102 измеряет пульс и передаёт его в приложение примерно каждые две секунды. Это не медицинское устройство, и оно ничего не диагностирует.">A MAX30102 sensor reads your heart rate and sends it to the app about every two seconds. It is not a medical device and does not diagnose anything.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Связь с телефоном по Bluetooth">Bluetooth link to your phone</span></h3><p><span data-i18n data-ru="Браслет связывается с телефоном по Bluetooth Low Energy. GPS, микрофон и интернет остаются в телефоне, поэтому браслет получился маленьким. Телефон должен быть с тобой, в кармане или в сумке.">The bracelet talks to your phone over Bluetooth Low Energy. GPS, microphone and internet stay in the phone, which keeps the bracelet small. Keep the phone with you, in a pocket or a bag.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Перезаряжаемый">Rechargeable</span></h3><p><span data-i18n data-ru="Небольшой литиевый аккумулятор на 250 мА·ч, заряжается через USB-C.">A small 250 mAh lithium battery, charged over USB-C.</span></p></div><div class="feature"><h3><span data-i18n data-ru="Ремешок и корпус">Strap and enclosure</span></h3><p><span data-i18n data-ru="Корпус, напечатанный на 3D-принтере, и регулируемый ремешок. Следующий формат: кольцо поменьше.">A 3D-printed enclosure with an adjustable strap. A smaller ring is the next form factor.</span></p></div></div>
   </div>
 </section>
 
@@ -360,6 +376,29 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
   </div>
 </section>
 
+<!-- USES -->
+<section id="uses">
+  <div class="wrap">
+    <p class="eyebrow"><span data-i18n data-ru="Когда это пригодится">When you would use it</span></p>
+    <h2 style="margin-top:14px; max-width:22ch"><span data-i18n data-ru="Выбери ситуацию и посмотри, что делает Qorgan.">Pick a moment. See what Qorgan does.</span></h2>
+    <div class="uses">
+      <div class="use-tabs" role="tablist" aria-label="Situations"><button type="button" role="tab" id="u-tab-0" aria-controls="u-panel-0" aria-selected="true" data-use="0"><span data-i18n data-ru="Поздно возвращаюсь домой">Walking home late</span></button><button type="button" role="tab" id="u-tab-1" aria-controls="u-panel-1" aria-selected="false" data-use="1"><span data-i18n data-ru="Поездка, которая тревожит">A ride that feels wrong</span></button><button type="button" role="tab" id="u-tab-2" aria-controls="u-panel-2" aria-selected="false" data-use="2"><span data-i18n data-ru="За тобой идут">Someone is following you</span></button><button type="button" role="tab" id="u-tab-3" aria-controls="u-panel-3" aria-selected="false" data-use="3"><span data-i18n data-ru="Когда дома небезопасно">When it is not safe at home</span></button><button type="button" role="tab" id="u-tab-4" aria-controls="u-panel-4" aria-selected="false" data-use="4"><span data-i18n data-ru="Телефон скоро разрядится">Your phone is dying</span></button></div>
+      <div class="use-body"><div class="use-panel" id="u-panel-0" role="tabpanel" aria-labelledby="u-tab-0"><h3><span data-i18n data-ru="Поздно возвращаюсь домой">Walking home late</span></h3><p><span data-i18n data-ru="Ты ставишь таймер безопасности на дорогу и выбираешь маршрут с лучшей оценкой безопасности. Если до конца таймера ты не подтвердишь, что в безопасности, контакты получат тревогу.">You set a safety timer for the walk and pick the route with the best safety score. If you do not tap that you are safe before the timer ends, your contacts are alerted.</span></p><p class="helps"><span class="helps-l"><span data-i18n data-ru="Здесь помогает">Qorgan helps with</span></span><span class="chip"><span data-i18n data-ru="Таймер безопасности">Safety timer</span></span><span class="chip"><span data-i18n data-ru="Безопасный маршрут">Safe Route</span></span><span class="chip"><span data-i18n data-ru="Оповещение в Telegram">Telegram alerts</span></span></p></div><div class="use-panel" id="u-panel-1" role="tabpanel" aria-labelledby="u-tab-1" hidden><h3><span data-i18n data-ru="Поездка, которая тревожит">A ride that feels wrong</span></h3><p><span data-i18n data-ru="Телефон звонит голосом твоей мамы. Ты отвечаешь и громко говоришь, что тебя ждут и знают, где ты. Никто не поймёт, что звонок ненастоящий.">Your phone rings with your mom’s voice. You answer and say out loud that people are expecting you and know where you are. Nobody has to know it was fake.</span></p><p class="helps"><span class="helps-l"><span data-i18n data-ru="Здесь помогает">Qorgan helps with</span></span><span class="chip"><span data-i18n data-ru="Фейковый звонок">Fake call</span></span></p></div><div class="use-panel" id="u-panel-2" role="tabpanel" aria-labelledby="u-tab-2" hidden><h3><span data-i18n data-ru="За тобой идут">Someone is following you</span></h3><p><span data-i18n data-ru="Телефон остаётся в сумке. Ты удерживаешь кнопку на браслете две секунды, он вибрирует в ответ, и геолокация, аудио и тревога в Telegram уже отправляются. На экране SOS видны ближайшие безопасные места с маршрутом к каждому.">Your phone stays in your bag. You hold the bracelet button for two seconds, it vibrates to confirm, and your location, audio and Telegram alert are on their way. The SOS screen shows the nearest safe places with a route to each.</span></p><p class="helps"><span class="helps-l"><span data-i18n data-ru="Здесь помогает">Qorgan helps with</span></span><span class="chip"><span data-i18n data-ru="SOS с браслета">Bracelet SOS</span></span><span class="chip"><span data-i18n data-ru="Оповещение о SOS рядом">Nearby SOS alert</span></span><span class="chip"><span data-i18n data-ru="Карта безопасных мест">Safe map and Partners</span></span></p></div><div class="use-panel" id="u-panel-3" role="tabpanel" aria-labelledby="u-tab-3" hidden><h3><span data-i18n data-ru="Когда дома небезопасно">When it is not safe at home</span></h3><p><span data-i18n data-ru="Ничего не нужно настраивать в момент опасности. Удерживай кнопку Fake Call на главном экране: сразу и громко начнётся звонок выбранным ранее голосом, а запись звука включится тихо.">There is nothing to set up in the moment. Hold the Fake Call button on the home screen: a loud call starts at once with your last chosen voice, and audio recording starts quietly.</span></p><p class="helps"><span class="helps-l"><span data-i18n data-ru="Здесь помогает">Qorgan helps with</span></span><span class="chip"><span data-i18n data-ru="Фейковый звонок">Fake call</span></span><span class="chip"><span data-i18n data-ru="История SOS">SOS history</span></span></p></div><div class="use-panel" id="u-panel-4" role="tabpanel" aria-labelledby="u-tab-4" hidden><h3><span data-i18n data-ru="Телефон скоро разрядится">Your phone is dying</span></h3><p><span data-i18n data-ru="Когда заряд подходит к концу, доверенный контакт получает уведомление. Молчащий телефон не станет неожиданностью.">When the battery is about to run out, your trusted contact is told. A phone that goes quiet does not become a surprise.</span></p><p class="helps"><span class="helps-l"><span data-i18n data-ru="Здесь помогает">Qorgan helps with</span></span><span class="chip"><span data-i18n data-ru="Оповещение о низком заряде">Low-battery alert</span></span></p></div></div>
+    </div>
+    <p class="note"><span data-i18n data-ru="Qorgan для всех, кто чувствует угрозу: домогательства, преследование, ограбление, физическая угроза, несчастный случай или медицинская ситуация. Он не заменяет экстренные службы, поэтому по возможности звони по местному номеру экстренной помощи.">Qorgan is for anyone who feels unsafe: harassment, stalking, robbery, a physical threat, an accident or a medical emergency. It does not replace emergency services, so call your local emergency number when you can.</span></p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="band">
+  <div class="wrap">
+    <p class="eyebrow"><span data-i18n data-ru="Наша история">Our story</span></p>
+    <h2 style="margin-top:14px; max-width:22ch"><span data-i18n data-ru="Почему мы создали Qorgan и как он вырос.">Why we built Qorgan, and how it grew.</span></h2>
+    <ol class="timeline"><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Идея">The idea</span></span><h3><span data-i18n data-ru="Просить о помощи не должно быть так трудно">Asking for help should not be this hard</span></h3><p><span data-i18n data-ru="Qorgan начался с личного опыта: мы поняли, как трудно тихо и быстро попросить о помощи, когда чувствуешь угрозу. Разблокировать телефон, открыть приложение и набрать номер долго, и все вокруг это видят.">Qorgan started from a personal experience: we realised how hard it is to ask for help quietly and quickly when you feel threatened. Unlocking a phone, opening an app and dialing takes time, and everyone around you can see it.</span></p></li><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Первый прототип">First prototype</span></span><h3><span data-i18n data-ru="Кликабельный макет за пять часов">A clickable mock-up in five hours</span></h3><p><span data-i18n data-ru="Первая версия была простым прототипом, собранным примерно за пять часов. Большинство кнопок ещё ничего не делали, но на нём мы проверили идею: одна большая кнопка SOS и безопасная карта вокруг неё.">Our first version was a low-fidelity prototype built in about five hours. Most of its buttons did nothing yet, but it let us test the idea of one big SOS button with a safe map around it.</span></p></li><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Настоящее приложение">The real app</span></span><h3><span data-i18n data-ru="Flutter, настоящая геолокация и карты">Flutter, real location, real maps</span></h3><p><span data-i18n data-ru="Мерей превратила макет в работающее приложение на Flutter: настоящая геолокация, карты OpenStreetMap, запись звука, оповещения в Telegram, таймер безопасности, фейковый звонок, переводы на три языка и связь с браслетом по Bluetooth.">Merey turned the mock-up into a working Flutter app: real geolocation, OpenStreetMap maps, audio recording, Telegram alerts, the safety timer, the fake call, translations into three languages and a Bluetooth link to the bracelet.</span></p></li><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Первый браслет">First bracelet</span></span><h3><span data-i18n data-ru="Кнопка, мотор и Bluetooth на макетной плате">Button, motor and Bluetooth on a breadboard</span></h3><p><span data-i18n data-ru="Томирис собрала первый браслет из платы ESP32, кнопки и вибромотора, потом добавила датчик пульса. Сначала он жил на макетной плате: удерживаешь кнопку две секунды, телефон запускает SOS, браслет вибрирует в ответ.">Tomiris built the first bracelet from an ESP32 board, a button and a vibration motor, then added a pulse sensor. It first lived on a breadboard: hold the button for two seconds, the phone starts the SOS, and the bracelet vibrates in reply.</span></p></li><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Обратная связь">Feedback</span></span><h3><span data-i18n data-ru="Школьное жюри попросило сделать меньше">A school jury asked us to go smaller</span></h3><p><span data-i18n data-ru="Когда мы защищали Qorgan в школе, совет жюри был ясным: сделать устройство меньше и незаметнее. Поэтому мы движемся к кольцу.">When we defended Qorgan at school, the jury’s advice was clear: make the device smaller and more discreet. That is why a ring is where we are heading.</span></p></li><li class="tl-item"><span class="tl-when"><span data-i18n data-ru="Октябрь 2026">October 2026</span></span><h3><span data-i18n data-ru="Готовый браслет и следующий этап">A finished bracelet, and the next stage</span></h3><p><span data-i18n data-ru="Теперь браслет это готовое изделие, напечатанное на 3D-принтере, с электроникой внутри, и он работает. Qorgan также прошёл в сетевой этап Республиканского конкурса научных проектов Казахстана.">The bracelet is now a finished 3D-printed piece with all the electronics inside, and it works. Qorgan also advanced to the network stage of Kazakhstan’s Republican Scientific Projects Competition.</span></p></li></ol>
+    <p class="note"><span data-i18n data-ru="Мы сделали эту страницу, чтобы показать Qorgan жюри конкурсов и пригласить всех следить за тем, что будет дальше. Если хочешь протестировать Qorgan, присоединяйся к списку ожидания ниже.">We built this page to show Qorgan to competition juries and to invite people to follow what we do next. If you would like to test Qorgan, join the waitlist below.</span></p>
+  </div>
+</section>
+
 <!-- STATUS -->
 <section id="status">
   <div class="wrap">
@@ -387,6 +426,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
         <h3>Next <span class="pill next"><span data-i18n data-ru="В планах">Planned</span></span></h3>
         <ul>
           <li><span data-i18n data-ru="Более компактный формат: кольцо">Smaller ring form factor</span></li>
+          <li><span data-i18n data-ru="Оповещения о SOS рядом на браслете, включаемые по желанию, с предупреждениями о рисках">Nearby alerts on the bracelet, opt-in with clear risk warnings</span></li>
           <li><span data-i18n data-ru="Публичный релиз приложения">Public app release</span></li>
           <li><span data-i18n data-ru="Юзабилити-тестирование и пилоты с партнёрскими заведениями">Usability testing and Partner venue pilots</span></li>
         </ul>
@@ -413,6 +453,16 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
         <p><span data-i18n data-ru="Создаёт браслет: плату ESP32, кнопку, вибромотор и датчик пульса.">Builds the wearable: the ESP32 board, button, vibration motor and pulse sensor.</span></p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <p class="eyebrow"><span data-i18n data-ru="Вопросы и ответы">Questions and answers</span></p>
+    <h2 style="margin-top:14px; max-width:22ch"><span data-i18n data-ru="О чём нас спрашивают.">What people ask us.</span></h2>
+    <div class="faq"><details class="qa"><summary><span data-i18n data-ru="Нужно ли моим контактам устанавливать приложение?">Do my contacts need to install the app?</span></summary><p><span data-i18n data-ru="Нет. Они получают тревогу в Telegram. Достаточно один раз подключить Telegram, чтобы тревога дошла до них.">No. They get the alert in Telegram. They connect their Telegram once so the alert can reach them, and that is all.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Работает ли браслет без телефона?">Does the bracelet work without my phone?</span></summary><p><span data-i18n data-ru="Нет. У браслета нет собственного GPS и микрофона. Он передаёт нажатие кнопки на телефон по Bluetooth, а телефон отправляет геолокацию, записывает звук и рассылает тревогу. Телефон должен быть с тобой, в кармане или в сумке.">No. The bracelet has no GPS or microphone of its own. It sends your button press to your phone over Bluetooth, and the phone shares the location, records audio and sends the alert. Keep the phone with you, in a pocket or a bag.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Можно ли случайно запустить SOS?">Can I trigger an SOS by accident?</span></summary><p><span data-i18n data-ru="SOS запускается только после удержания в течение двух секунд, поэтому быстрое касание ничего не делает. Если запустила случайно, нажми «Я в порядке», чтобы завершить тревогу.">SOS needs a two-second hold, so a quick tap does nothing. If you do start one by mistake, tap “I’m OK” to end the alert.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Вызывает ли Qorgan полицию или скорую?">Does Qorgan call the police or an ambulance?</span></summary><p><span data-i18n data-ru="Нет. Qorgan оповещает людей, которым ты доверяешь, и показывает безопасные места рядом. Он не заменяет экстренные службы, поэтому по возможности звони ещё и по местному номеру экстренной помощи.">No. Qorgan alerts the people you trust and shows safe places nearby. It does not replace emergency services, so call your local emergency number as well when you can.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Qorgan только для женщин?">Is Qorgan only for women?</span></summary><p><span data-i18n data-ru="Нет. Проект начался с опыта девушек, но Qorgan создан для каждого, кто чувствует угрозу: домогательства, преследование, ограбление, физическая угроза, несчастный случай или медицинская ситуация.">No. The project began with the experience of girls, but Qorgan is built for anyone who feels unsafe: harassment, stalking, robbery, a physical threat, an accident or a medical emergency.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Кто видит мою геолокацию?">Who can see my location?</span></summary><p><span data-i18n data-ru="Когда ты запускаешь SOS, доверенные контакты получают твою геолокацию, а пользователи Qorgan рядом могут получить оповещение. Так как злоупотребление таким оповещением реальный риск, мы разрабатываем его как включаемое по желанию, с понятными предупреждениями о рисках включения и отключения. Публичная политика конфиденциальности появится вместе с релизом приложения.">When you trigger an SOS, your trusted contacts get your location, and Qorgan users nearby can be alerted. Because misuse of a nearby alert is a real risk, we are designing it to be opt-in, with clear warnings about the risks of turning it on or off. A public privacy policy will come with the app release.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Что делает датчик пульса?">What does the pulse sensor do?</span></summary><p><span data-i18n data-ru="Он измеряет пульс и передаёт его в приложение примерно каждые две секунды. Qorgan не медицинское устройство и ничего не диагностирует.">It reads your heart rate and streams it to the app about every two seconds. Qorgan is not a medical device and does not diagnose anything.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Как считается уровень опасности?">How is the danger level calculated?</span></summary><p><span data-i18n data-ru="По времени и пропущенным проверкам, без ИИ. Низкий, если ты подтвердила безопасность за 2 минуты, средний от 2 до 6 минут, высокий после 6 минут или после 3 пропущенных проверок.">From time and missed check-ins, with no AI. Low if you confirm you are safe within 2 minutes, medium between 2 and 6 minutes, high after 6 minutes or after 3 missed check-ins.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Что такое Qorgan Partners?">What are Qorgan Partners?</span></summary><p><span data-i18n data-ru="Кафе, аптеки и магазины с обученным персоналом, куда можно зайти, если тебе тревожно. Сейчас в приложении это демонстрационные записи. Реальные пилоты с партнёрами запланированы.">Cafes, pharmacies and shops with trained staff that you can walk into when you feel unsafe. In the app they are demo entries today. Real partner pilots are planned.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Почему браслет, а не только приложение?">Why a bracelet, and not just an app?</span></summary><p><span data-i18n data-ru="С телефоном нужно несколько шагов: разблокировать, открыть, нажать. С браслетом достаточно одного нажатия на две секунды, и никто вокруг не видит экран. Мы начали с браслета, потому что его проще сделать, а дальше движемся к кольцу поменьше.">A phone takes several steps: unlock, open, tap. The bracelet needs one two-second press, and nobody around you sees a screen. We started with a bracelet because it is easier to build, and a smaller ring is where we are heading.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Можно ли попробовать Qorgan сейчас?">Can I try Qorgan now?</span></summary><p><span data-i18n data-ru="Пока не для всех. Приложение и браслет работают, и мы готовим публичный релиз. Присоединяйся к списку ожидания, и мы напишем, когда откроется тестирование.">Not publicly yet. The app and the bracelet work, and we are preparing the public release. Join the waitlist and we will write to you when testing opens.</span></p></details><details class="qa"><summary><span data-i18n data-ru="Кто делает Qorgan?">Who builds Qorgan?</span></summary><p><span data-i18n data-ru="Две школьницы из Шымкента, Казахстан: Мерей делает приложение, Томирис делает браслет.">Two students from Shymkent, Kazakhstan: Merey builds the app and Tomiris builds the bracelet.</span></p></details></div>
+    <p class="note"><span data-i18n data-ru="Нет своего вопроса? Напиши нам по адресу в разделе ниже.">Your question is not here? Write to us at the address in the section below.</span></p>
   </div>
 </section>
 
@@ -536,6 +586,30 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: s
     else if (nav.indexOf('ru') === 0 || nav.indexOf('kk') === 0) start = 'ru';
   } catch (e) {}
   if (start !== 'en') setLang(start, false);
+})();
+
+(function () {
+  function wire(tabSel, panelAttr, prefix) {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll(tabSel));
+    tabs.forEach(function (t, idx) {
+      t.addEventListener('click', function () { show(idx); });
+      t.addEventListener('keydown', function (e) {
+        var n = tabs.length, k = e.key;
+        if (k === 'ArrowRight' || k === 'ArrowDown') { e.preventDefault(); show((idx + 1) % n); tabs[(idx + 1) % n].focus(); }
+        if (k === 'ArrowLeft' || k === 'ArrowUp') { e.preventDefault(); show((idx - 1 + n) % n); tabs[(idx - 1 + n) % n].focus(); }
+      });
+    });
+    function show(i) {
+      tabs.forEach(function (t, j) {
+        var on = i === j;
+        t.setAttribute('aria-selected', String(on));
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        if (p) p.hidden = !on;
+      });
+    }
+  }
+  wire('.tabs [role="tab"]');
+  wire('.use-tabs [role="tab"]');
 })();
 </script>
 </body>
